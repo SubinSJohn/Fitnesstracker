@@ -26,7 +26,7 @@ public class IdealProportion{
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Gender gender;
+    private User.Gender gender;
 
     @Column(nullable = false)
     private Double referenceHeightCm;
@@ -50,8 +50,5 @@ public class IdealProportion{
     private Double referenceThighsCm;
 
 
-    public enum Gender{   
-        MALE, FEMALE
-    }
 }
 
