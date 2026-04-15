@@ -6,6 +6,8 @@ import com.subin.fitnesstracker.entity.User;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +29,11 @@ public class UserController{
     }
 
     @GetMapping("/login/{username}")
-    public Optional<User> login(@PathVariable String username) {
-        return userService.findByUsername(username);
+    public ResponseEntity<?> login(@PathVariable String username) {
+        String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(!loggedInUser.equals(username))
+            return ResponseEntity.status(403).body("Access denied");
+        else 
+            return ResponseEntity.ok(userService.findByUsername(username));
     }  
 }
